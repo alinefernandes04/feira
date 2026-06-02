@@ -10,8 +10,8 @@
     --bg: #0f1117;
     --surface: #1a1d27;
     --surface2: #22263a;
-    --accent: #7c3aed;
-    --accent2: #a78bfa;
+    --accent: #3f4beb;
+    --accent2: #a43ef7;
     --text: #eef0f8;
     --muted: #6b7094;
     --border: #2e3250;
@@ -500,7 +500,7 @@ Cada item em uma linha ✓"></textarea>
   <div class="total-info">
     <div class="total-label">Total</div>
     <div class="total-value" id="total-display">R$ 0,00</div>
-    <div class="total-counted" id="items-counted">0 itens com preço</div>
+    <div class="total-counted" id="items-counted">0 itens com preço</div> 
   </div>
   <button class="btn-reset" onclick="resetAll()">Nova lista 🗑️</button>
 </div>
@@ -508,6 +508,17 @@ Cada item em uma linha ✓"></textarea>
 <script>
   let items = [];
   let nextId = 1;
+
+  function loadFromStorage() {
+  const saved = localStorage.getItem('mercado-items');
+  if (saved) {
+    items = JSON.parse(saved);
+    nextId = Math.max(...items.map(i => i.id)) + 1;
+    showList();
+  }
+} 
+
+loadFromStorage();
 
   function importList() {
     const raw = document.getElementById('paste-input').value.trim();
@@ -686,6 +697,7 @@ Cada item em uma linha ✓"></textarea>
     const pct = total_items > 0 ? (checked / total_items) * 100 : 0;
     document.getElementById('progress-fill').style.width = pct + '%';
     document.getElementById('progress-label').textContent = `${checked} de ${total_items} itens marcados`;
+    localStorage.setItem('mercado-items', JSON.stringify(items));
   }
 
   function resetAll() {
