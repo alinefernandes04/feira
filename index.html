@@ -673,7 +673,7 @@ Cada item em uma linha ✓"></textarea>
   }
 
   function updateTotals() {
-    const priced = items.filter(i => i.price !== '' && !isNaN(parseFloat(i.price)));
+    const priced = items.filter(i => i.checked && i.price !== '' && !isNaN(parseFloat(i.price)));
     const total = priced.reduce((sum, i) => sum + (getSubtotal(i) || 0), 0);
     const totalStr = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
